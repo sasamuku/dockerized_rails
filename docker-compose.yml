@@ -1,12 +1,14 @@
 version: "3.9"
 services:
   db:
+    container_name: db
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
   web:
+    container_name: web
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
@@ -15,3 +17,10 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - datadog
+  datadog:
+    container_name: datadog
+    image: datadog/agent:latest
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_APM_ENABLED=true
