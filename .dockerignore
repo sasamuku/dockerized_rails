@@ -1,4 +1,4 @@
 .envrc
 docker-compose.yml
-Dockerfile
+Dockerfile*
 README.md
